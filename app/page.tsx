@@ -63,10 +63,15 @@ export default function Home() {
     return () => clearTimeout(t);
   }, [started]);
 
-  // Avança as fotos, uma a cada 13s, e para na última (a 5ª).
+  // Avança as fotos (tempo por foto). A 4ª dura 3s menos para encurtar a
+  // segunda frase; as demais ficam 13s. Para na última (a 5ª).
   useEffect(() => {
     if (!revealed || current >= lastIndex) return;
-    const t = setTimeout(() => setCurrent((prev) => prev + 1), 13000);
+    const photoMs = [13000, 13000, 13000, 10000];
+    const t = setTimeout(
+      () => setCurrent((prev) => prev + 1),
+      photoMs[current] ?? 13000
+    );
     return () => clearTimeout(t);
   }, [revealed, current, lastIndex]);
 
